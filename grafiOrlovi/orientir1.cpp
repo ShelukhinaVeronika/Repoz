@@ -13,30 +13,19 @@ bool isWeigth(int w) {
 
 int main() {
 	setlocale(LC_ALL, "RU");
-	/* int n, x;
-	 cout << "Введите n: ";
-	 cin >> n;
-	 vector<vector <int>> graf(n);
-	 cout << "Введите матрицу смежности: ";
-	 for (int i = 0; i < n; i++) {
-		 for (int j = 0; j < n; j++) {
-			 cin >> x;
-			 if (x != 0){
-				 graf[i].push_back(j);
-			 }
-		 }
-	 }
-	 int vert;
-	 cout << "Введите номер вершины: ";
-	 cin >> vert;
-
-	 int otvet = graf[vert].size();
-	 cout << "Кол-во смежных вершин: " << otvet;*/
-	int x,y,w;
+	int x,y,w, n;
 	map<int, list<pair<int, double>>>l_Adj;
-	while (cin.peek() != EOF) {
-		cin >> x >> y >> w; 
-		if (!isWeigth) w = 1.0;
+	cout << "Введите количество вершин графа: ";
+	cin >> n;
+	cout << "Введите " << n << " рёбер в формате 'исходная_вершина конечная_вершина вес':" << endl;
+	for (int i = 0; i < n; i++) {
+		cin >> x >> y;
+		if (cin.peek() == ' ') {
+			cin >> w;
+		}
+		else {
+			w = 1;
+		}
 		auto it_x = l_Adj.find(x);
 		bool fl = true;
 		if (it_x != l_Adj.end()) {
@@ -46,7 +35,6 @@ int main() {
 				break;
 			}
 		}
-		//if (orient) {
 			if (fl) {
 				l_Adj[x].push_back(make_pair(y, w));
 				if (l_Adj.find(y) == l_Adj.end()) {
@@ -55,13 +43,7 @@ int main() {
 					it->second.erase(it->second.begin());
 				}
 			}
-		//}
-		/*else if (fl) {
-			l_Adj[x].push_back(make_pair(y, w));
-			l_Adj[y].push_back(make_pair(x, w));
-		}*/
 	}
-
 	
 	for (auto it = l_Adj.begin(); it != l_Adj.end(); it++) {
 		cout << it->first << " : ";
@@ -76,6 +58,21 @@ int main() {
 		cout << endl;
 	}
 
+	int vertex;
+	cout << "Введите вершину для поиска смежных: ";
+	cin >> vertex;
+
+	auto it = l_Adj.find(vertex);
+	if (it != l_Adj.end()) {
+		cout << "Смежные вершины: ";
+		for (auto& smej : it->second) {
+			cout << smej.first << " ";
+		}
+		cout << endl << "Количество смежных вершин: " << it->second.size() << endl;
+	}
+	else {
+		cout << "Вершина не найдена" << endl;
+	}
 
 	return 0;
 }
